@@ -35,4 +35,4 @@ jobs:
           # Use your custom secret here:
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build
+          FOLDER: .
