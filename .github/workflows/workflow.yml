@@ -31,5 +31,6 @@ jobs:
       run: |
         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
         aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        eb init -r <AWS_REGION> -p <EB_PLATFORM>
-        eb deploy <YOUR_EB_ENVIRONMENT_NAME>
+        aws configure set region <AWS_REGION>  # Replace with your AWS region
+        eb init -r <AWS_REGION> -p <EB_PLATFORM> --debug  # Add --debug for debugging
+        eb deploy <YOUR_EB_ENVIRONMENT_NAME> --debug  # Add --debug for debugging
