@@ -24,4 +24,4 @@ jobs:
         env:
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
           BRANCH: gh-pages
-          SOURCE_DIR: 'build'
+          
