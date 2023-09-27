@@ -1,4 +1,4 @@
-name: Deploy to AWS Elastic Beanstalk
+name: Github Page Deploy
 
 on:
   push:
@@ -6,31 +6,22 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [15.x]
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+      - name: Install and build
+        run: npm install && npm run build
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build and package application
-      run: npm build
-
-    - name: Deploy to Elastic Beanstalk
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set region <AWS_REGION>  # Replace with your AWS region
-        eb init -r <AWS_REGION> -p <EB_PLATFORM> --debug  # Add --debug for debugging
-        eb deploy <YOUR_EB_ENVIRONMENT_NAME> --debug  # Add --debug for debugging
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: build
